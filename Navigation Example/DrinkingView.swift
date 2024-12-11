@@ -4,19 +4,26 @@ import SwiftUI
 struct DrinkingView: View {
     let name: String
     let age: String
+    let drinkingAge: Int
     
-    var numericalAge: Int?{
+    init(name: String, age: String, drinkingAge: Int = 18){
+        self.name = name
+        self.age = age
+        self.drinkingAge = drinkingAge
+    }
+    
+    var numericalAge: Int? {
         Int(age)
     }
     var text: String{
         if let numericalAge {
-            if numericalAge > 18{
-                return "Drinking age."
+            if numericalAge > drinkingAge {
+                return "Welcome \(name.capitalized)! You can drink responsibly."
             } else {
-                return "Not drinking age."
+                return "Sorry \(name.capitalized), we can't serve you."
             }
         } else {
-            return "invalid age"
+            return #"The value "\#(age)" is not valid!"#
         }
     }
     var body: some View {
@@ -26,6 +33,9 @@ struct DrinkingView: View {
                 .opacity(0.3)
                 .ignoresSafeArea()
             Text(text)
+                .font(.largeTitle)
+                .multilineTextAlignment(.center)
+                .padding()
         }
     }
 }

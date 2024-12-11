@@ -11,6 +11,10 @@ struct ContentView: View {
     @State private var name: String = ""
     @State private var age: String = ""
     
+    var disableNavigationLink: Bool {
+        name.count <= 1 || age.isEmpty
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,9 +25,28 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     Text("Enter your age")
                     TextField("Age", text: $age)
+                        .keyboardType(.numberPad)
                 }
                 
                 Spacer()
+                NavigationLink {
+                    ZStack{
+                        Color
+                            .orange
+                            .opacity(0.3)
+                            .ignoresSafeArea()
+                        Text("Orange View!")
+                    }
+                } label: {
+                    Text("Go to Orange View")
+                        .font(.title)
+                        .padding()
+                        .overlay(
+                            Capsule()
+                                .stroke()
+                        )
+                }
+                
                 NavigationLink {
                     DrinkingView(name: name, age: age)
                 } label: {
@@ -34,7 +57,7 @@ struct ContentView: View {
                             Capsule()
                                 .stroke()
                         )
-                }
+                }.disabled(disableNavigationLink)
             }
             .padding()
             .navigationTitle("Navigation Example")
